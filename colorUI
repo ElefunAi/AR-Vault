@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class color2 : MonoBehaviour
+{
+    GameObject webcam;
+    WebCamControllergray script;
+    private Text redText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        webcam = GameObject.Find("Plane");
+        
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        script = webcam.GetComponent<WebCamControllergray>();
+        byte red = script.red;
+        int redx = script.redx;
+        int redy = script.redy;
+
+        this.redText = this.GetComponent<Text>();
+
+        redText.text = "red " + red.ToString() + "redx " + redx.ToString() + "redy " + redy.ToString();
+
+
+    }
+}
