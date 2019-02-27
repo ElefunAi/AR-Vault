@@ -1,0 +1,70 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class drawline2 : MonoBehaviour
+{
+
+    int width = 1600;
+    int height = 800;
+    int fps = 15;
+    GameObject webcam;
+    WebCamControllergray script;
+    Texture2D texture;
+    Color[] colors = null;
+    Texture2D mainTexture;
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        webcam = GameObject.Find("Plane");
+         mainTexture = (Texture2D)GetComponent<Renderer>().material.mainTexture;
+        Color[] pixels = mainTexture.GetPixels();
+
+        colors = new Color[pixels.Length];
+        pixels.CopyTo(colors, 0);
+
+       
+
+
+    }
+
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        script = webcam.GetComponent<WebCamControllergray>();
+        byte red = script.red;
+        int redx_tmp = script.redx;
+        int redy_tmp = script.redy;
+        int camwidth = script.camwidth;
+        int camheight = script.camheight;
+
+        int redx = redx_tmp/5;
+        int redy = redy_tmp/3;
+
+
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+            {
+                {
+
+                    colors.SetValue(Color.black, redx + 256 * (redy+i) + j);
+
+
+
+                }
+            }
+        texture = new Texture2D(mainTexture.width, mainTexture.height, TextureFormat.RGBA32, false);
+        texture.filterMode = FilterMode.Point;
+
+
+        texture.SetPixels(colors);
+        texture.Apply();
+        GetComponent<Renderer>().material.mainTexture = texture;
+    }
+}
